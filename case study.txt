@@ -1,1 +1,0 @@
-Create a webpagew for college department and link the student information page with it and write a java script program to display "Welcome To Sitnagpur" in an alert box
