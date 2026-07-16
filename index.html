@@ -1,19 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>College Department</title>
-    <script>
-        function showMessage() {
-            alert("Welcome to SIT Nagpur");
-        }
-    </script>
+    <title>Bill Generator</title>
 </head>
-<body onload="showMessage()">
+<body>
 
-    <h1>Computer Science Department</h1>
-    <p>Welcome to the Computer Science Department of SIT Nagpur.</p>
+<div id="output"></div>
 
-    <a href="student.html">Student Information</a>
+<script>
+function calculateBill() {
+
+    let name = prompt("Enter Customer Name:");
+    let mobile = prompt("Enter Mobile Number:");
+    let invoice = prompt("Enter Invoice Number:");
+    let product = prompt("Enter Product Name:");
+    let qty = parseFloat(prompt("Enter Quantity (Kg):"));
+    let rate = parseFloat(prompt("Enter Rate per Kg:"));
+    let discount = parseFloat(prompt("Enter Discount (%):"));
+    let gst = parseFloat(prompt("Enter GST (%):"));
+    let packing = parseFloat(prompt("Enter Packing Charges:"));
+    let payment = prompt("Enter Payment Mode (Cash/Card/UPI):");
+    let member = prompt("Membership? (Yes/No):");
+
+    let amount = qty * rate;
+    let discountAmount = amount * discount / 100;
+    let subtotal = amount - discountAmount;
+    let gstAmount = subtotal * gst / 100;
+    let total = subtotal + gstAmount + packing;
+
+    if (member && member.toLowerCase() === "yes") {
+        total -= total * 0.05;
+    }
+
+    document.getElementById("output").innerHTML = `
+        <h2>Invoice</h2>
+        <p><b>Customer Name:</b> ${name}</p>
+        <p><b>Mobile Number:</b> ${mobile}</p>
+        <p><b>Invoice Number:</b> ${invoice}</p>
+        <p><b>Product Name:</b> ${product}</p>
+        <p><b>Quantity:</b> ${qty} Kg</p>
+        <p><b>Rate:</b> ₹${rate.toFixed(2)}</p>
+        <p><b>Amount:</b> ₹${amount.toFixed(2)}</p>
+        <p><b>Discount:</b> ₹${discountAmount.toFixed(2)}</p>
+        <p><b>GST:</b> ₹${gstAmount.toFixed(2)}</p>
+        <p><b>Packing Charges:</b> ₹${packing.toFixed(2)}</p>
+        <h3>Total Bill: ₹${total.toFixed(2)}</h3>
+        <p><b>Payment Mode:</b> ${payment}</p>
+        <p><b>Membership:</b> ${member}</p>
+    `;
+}
+
+window.onload = calculateBill;
+</script>
 
 </body>
 </html>
