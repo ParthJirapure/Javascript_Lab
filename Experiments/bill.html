@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing Calculator</title>
+</head>
+
+<body>
+
+<!-- Student Details (Top Right Corner) -->
+<div style="position:absolute; top:10px; right:20px; text-align:right; font-family:Arial, sans-serif; font-size:14px;">
+    <b>Name:</b> Parth Jirapure<br>
+    <b>PRN:</b> 24070521243<br>
+    <b>Semester:</b> 5<br>
+    <b>Section:</b> D
+</div>
+
+<h2>Billing Calculator</h2>
+
+<script>
+
+const GST = 0.18;
+
+// User Input
+var customerName = prompt("Enter Customer Name:");
+var productName = prompt("Enter Product Name:");
+var quantity = Number(prompt("Enter Quantity:"));
+let price = Number(prompt("Enter Price Per Item:"));
+
+// Calculations
+let total = quantity * price;
+let gstAmount = total * GST;
+let finalBill = total + gstAmount;
+
+// Object
+const bill = {
+    customer: customerName,
+    product: productName,
+    quantity: quantity,
+    price: price,
+    total: total,
+    gstAmount: gstAmount,
+    finalBill: finalBill
+};
+
+// Destructuring
+const {
+    customer,
+    product,
+    quantity: qty,
+    price: itemPrice,
+    total: amount,
+    gstAmount: gst,
+    finalBill: finalAmount
+} = bill;
+
+// Output
+document.write("<h2>Billing Receipt</h2>");
+document.write(`<p><b>Customer :</b> ${customer}</p>`);
+document.write(`<p><b>Product :</b> ${product}</p>`);
+document.write(`<p><b>Quantity :</b> ${qty}</p>`);
+document.write(`<p><b>Price Per Item :</b> ₹${itemPrice.toFixed(2)}</p>`);
+document.write(`<p><b>Total :</b> ₹${amount.toFixed(2)}</p>`);
+document.write(`<p><b>GST (18%) :</b> ₹${gst.toFixed(2)}</p>`);
+document.write("<hr>");
+document.write(`<h3>Final Bill : ₹${finalAmount.toFixed(2)}</h3>`);
+
+</script>
+
+</body>
+</html>
