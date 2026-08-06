@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Shopping Cart</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f4f4f4;
+        }
+        .container{
+            width:450px;
+            margin:40px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+            text-align:center;
+        }
+        select,input,button{
+            padding:8px;
+            margin:8px;
+        }
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+        table,th,td{
+            border:1px solid #999;
+        }
+        th,td{
+            padding:8px;
+        }
+        th{
+            background:#4CAF50;
+            color:white;
+        }
+        #result{
+            margin-top:20px;
+            font-size:18px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Shopping Cart Calculator</h2>
+
+    <label>Item:</label>
+    <select id="item">
+        <option value="800">Laptop ($800)</option>
+        <option value="25">Mouse ($25)</option>
+        <option value="50">Keyboard ($50)</option>
+        <option value="100">Headphones ($100)</option>
+        <option value="300">Monitor ($300)</option>
+    </select>
+
+    <br>
+
+    <label>Quantity:</label>
+    <input type="number" id="qty" min="1" placeholder="Enter quantity">
+
+    <br>
+
+    <button onclick="addToCart()">Add to Cart</button>
+    <button onclick="calculateBill()">Calculate Bill</button>
+    <button onclick="clearCart()">Clear Cart</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="cartTable"></tbody>
+    </table>
+
+    <div id="result"></div>
+</div>
+
+<script>
+
+const cart = [];
+
+function addToCart(){
+
+    let select = document.getElementById("item");
+    let name = select.options[select.selectedIndex].text.split(" (")[0];
+    let price = Number(select.value);
+    let qty = Number(document.getElementById("qty").value);
+
+    if(qty <= 0 || isNaN(qty)){
+        alert("Please enter a valid quantity.");
+        return;
+    }
+
+    cart.push({
+        name:name,
+        price:price,
+        quantity:qty
+    });
+
+    displayCart();
+
+    document.getElementById("qty").value="";
+}
+
+function displayCart(){
+
+    let table = document.getElementById("cartTable");
+    table.innerHTML="";
+
+    cart.forEach(item=>{
+
+        table.innerHTML += `
+        <tr>
+            <td>${item.name}</td>
+            <td>$${item.price}</td>
+            <td>${item.quantity}</td>
+            <td>$${item.price*item.quantity}</td>
+        </tr>`;
+
+    });
+
+}
+
+function calculateBill(){
+
+    if(cart.length===0){
+        alert("Cart is empty!");
+        return;
+    }
+
+    let total = cart.reduce((sum,item)=>sum+(item.price*item.quantity),0);
+
+    let discount=0;
+
+    if(total>=1000)
+        discount=total*0.20;
+    else if(total>=500)
+        discount=total*0.10;
+    else if(total>=200)
+        discount=total*0.05;
+
+    let finalAmount=total-discount;
+
+    document.getElementById("result").innerHTML=
+    `
+    Total : $${total.toFixed(2)} <br>
+    Discount : $${discount.toFixed(2)} <br>
+    <span style="color:green;">Final Amount : $${finalAmount.toFixed(2)}</span>
+    `;
+
+}
+
+function clearCart(){
+
+    cart.length=0;
+    document.getElementById("cartTable").innerHTML="";
+    document.getElementById("result").innerHTML="";
+}
+
+</script>
+
+</body>
+</html>
