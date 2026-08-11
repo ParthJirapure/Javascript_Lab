@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Array Maximum and Minimum</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dff7f2, #cde9ff);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            width: 450px;
+            padding: 35px;
+            border-radius: 20px;
+
+            box-shadow:
+                0 15px 40px rgba(60, 120, 130, 0.18);
+
+            text-align: center;
+        }
+
+        h1 {
+            color: #17494d;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #6b7f82;
+        }
+
+        input {
+            width: 80%;
+            padding: 14px;
+            margin: 12px;
+            border: 2px solid #d5e8e6;
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            background-color: #f7fcfb;
+            color: #17494d;
+
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #52b8ae;
+
+            box-shadow:
+                0 0 0 3px rgba(82, 184, 174, 0.15);
+        }
+
+        input::placeholder {
+            color: #9aabab;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 8px;
+
+            border: none;
+            border-radius: 10px;
+
+            background-color: #42a89d;
+            color: white;
+
+            font-size: 15px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        button:hover {
+            background-color: #328f86;
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 6px 15px rgba(66, 168, 157, 0.25);
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+
+            background-color: #f0faf8;
+
+            border: 1px solid #d6eeea;
+            border-radius: 14px;
+
+            display: none;
+        }
+
+        .result h3 {
+            color: #17494d;
+            margin-top: 0;
+        }
+
+        .maximum {
+            color: #23866d;
+            font-weight: bold;
+        }
+
+        .minimum {
+            color: #e06c5f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Array Calculator</h1>
+
+        <p>Enter numbers separated by commas</p>
+
+        <input
+            type="text"
+            id="numbers"
+            placeholder="Example: 25, 10, 45, 5, 30, 15"
+        >
+
+        <br>
+
+        <button onclick="findMaxMin()">
+            Find Maximum & Minimum
+        </button>
+
+        <button onclick="clearData()">
+            Clear
+        </button>
+
+        <div class="result" id="result"></div>
+
+    </div>
+
+
+    <script>
+
+        function findMaxMin() {
+
+            // Get input from user
+            let input = document.getElementById("numbers").value;
+
+            // Check if input is empty
+            if (input.trim() === "") {
+                alert("Please enter some numbers!");
+                return;
+            }
+
+            // Convert input into an array
+            let numbers = input.split(",").map(Number);
+
+            // Check for invalid numbers
+            if (numbers.some(isNaN)) {
+                alert("Please enter only valid numbers!");
+                return;
+            }
+
+            // Find maximum and minimum
+            let maximum = numbers[0];
+            let minimum = numbers[0];
+
+            for (let i = 1; i < numbers.length; i++) {
+
+                if (numbers[i] > maximum) {
+                    maximum = numbers[i];
+                }
+
+                if (numbers[i] < minimum) {
+                    minimum = numbers[i];
+                }
+            }
+
+            // Display result
+            document.getElementById("result").style.display = "block";
+
+            document.getElementById("result").innerHTML =
+                "<h3>Result</h3>" +
+                "<p><b>Array:</b> [" + numbers.join(", ") + "]</p>" +
+                "<p class='maximum'>Maximum Value: " + maximum + "</p>" +
+                "<p class='minimum'>Minimum Value: " + minimum + "</p>";
+        }
+
+
+        function clearData() {
+
+            document.getElementById("numbers").value = "";
+
+            document.getElementById("result").style.display = "none";
+        }
+
+    </script>
+
+</body>
+</html>
