@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>String Functions and Regex</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        /* Student Details Outside Main Box */
+        .details-box {
+            width: 250px;
+            border: 2px solid #333;
+            padding: 12px 18px;
+            border-radius: 8px;
+            background-color: white;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            box-shadow: 0 0 8px #ccc;
+        }
+
+        .details-box p {
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        /* Main Project Box */
+        .container {
+            width: 700px;
+            max-width: 70%;
+            margin: 70px auto 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #444;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 130px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .result {
+            background-color: #f5f5f5;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 5px;
+            white-space: pre-line;
+        }
+
+        .valid {
+            color: green;
+            font-weight: bold;
+        }
+
+        .invalid {
+            color: red;
+            font-weight: bold;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- STUDENT DETAILS BOX -->
+    <div class="details-box">
+
+        <p><strong>Name:</strong> Parth Jirapure</p>
+        <p><strong>Year:</strong> 3</p>
+        <p><strong>Sem:</strong> 5</p>
+        <p><strong>Sec:</strong> D</p>
+        <p><strong>PRN:</strong> 24070521243</p>
+
+    </div>
+
+
+    <!-- MAIN PROJECT BOX -->
+    <div class="container">
+
+        <h1>String Functions and Regular Expressions</h1>
+
+
+        <!-- EMAIL VALIDATION -->
+        <section>
+
+            <h2>1. Email Validation</h2>
+
+            <input
+                type="text"
+                id="email"
+                placeholder="Enter email address"
+            >
+
+            <button onclick="validateEmail()">
+                Validate Email
+            </button>
+
+            <div id="emailResult" class="result"></div>
+
+        </section>
+
+
+        <!-- DATA EXTRACTION -->
+        <section>
+
+            <h2>2. Data Extraction</h2>
+
+            <textarea
+                id="text"
+                placeholder="Enter text containing email addresses and phone numbers"
+            ></textarea>
+
+            <button onclick="extractEmails()">
+                Extract Emails
+            </button>
+
+            <button onclick="extractPhones()">
+                Extract Phone Numbers
+            </button>
+
+            <div id="extractResult" class="result"></div>
+
+        </section>
+
+
+        <!-- TEXT ANALYSIS -->
+        <section>
+
+            <h2>3. Text Analysis</h2>
+
+            <textarea
+                id="analysisText"
+                placeholder="Enter text for analysis"
+            ></textarea>
+
+            <button onclick="analyzeText()">
+                Analyze Text
+            </button>
+
+            <div id="analysisResult" class="result"></div>
+
+        </section>
+
+    </div>
+
+
+    <script>
+
+        // EMAIL VALIDATION
+
+        function validateEmail() {
+
+            let email =
+                document.getElementById("email").value;
+
+            let pattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            let result =
+                document.getElementById("emailResult");
+
+            if (pattern.test(email)) {
+
+                result.innerHTML =
+                    "<span class='valid'>Valid Email Address</span>";
+
+            } else {
+
+                result.innerHTML =
+                    "<span class='invalid'>Invalid Email Address</span>";
+            }
+        }
+
+
+        // EMAIL EXTRACTION
+
+        function extractEmails() {
+
+            let text =
+                document.getElementById("text").value;
+
+            let pattern =
+                /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+
+            let emails =
+                text.match(pattern);
+
+            let result =
+                document.getElementById("extractResult");
+
+            if (emails) {
+
+                result.innerText =
+                    "Emails Found:\n\n" +
+                    emails.join("\n");
+
+            } else {
+
+                result.innerText =
+                    "No email addresses found.";
+            }
+        }
+
+
+        // PHONE NUMBER EXTRACTION
+
+        function extractPhones() {
+
+            let text =
+                document.getElementById("text").value;
+
+            let pattern =
+                /(?:\+91[-\s]?)?[6-9]\d{9}/g;
+
+            let phones =
+                text.match(pattern);
+
+            let result =
+                document.getElementById("extractResult");
+
+            if (phones) {
+
+                result.innerText =
+                    "Phone Numbers Found:\n\n" +
+                    phones.join("\n");
+
+            } else {
+
+                result.innerText =
+                    "No phone numbers found.";
+            }
+        }
+
+
+        // TEXT ANALYSIS
+
+        function analyzeText() {
+
+            let text =
+                document.getElementById("analysisText").value;
+
+            if (text.trim() === "") {
+
+                document.getElementById("analysisResult").innerText =
+                    "Please enter some text.";
+
+                return;
+            }
+
+            let characters =
+                text.length;
+
+            let words =
+                text.trim().split(/\s+/);
+
+            let sentences =
+                text.split(/[.!?]+/)
+                    .filter(sentence =>
+                        sentence.trim() !== ""
+                    );
+
+            let uppercase =
+                text.toUpperCase();
+
+            let lowercase =
+                text.toLowerCase();
+
+            let result =
+                "TEXT ANALYSIS\n\n" +
+
+                "Characters: " +
+                characters + "\n" +
+
+                "Words: " +
+                words.length + "\n" +
+
+                "Sentences: " +
+                sentences.length + "\n\n" +
+
+                "Uppercase:\n" +
+                uppercase + "\n\n" +
+
+                "Lowercase:\n" +
+                lowercase;
+
+            document.getElementById("analysisResult").innerText =
+                result;
+        }
+
+    </script>
+
+</body>
+
+</html>
