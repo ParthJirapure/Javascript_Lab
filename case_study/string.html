@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>String Operations in JavaScript</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 25px;
+        }
+
+        /* Main Content */
+        .container {
+            width: 700px;
+            max-width: 85%;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        /* Student Details Box on Right Side */
+        .student-details {
+            position: fixed;
+            top: 25px;
+            right: 15px;
+            width: 190px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #bbb;
+            border-right: 5px solid #4CAF50;
+            line-height: 1.7;
+            z-index: 10;
+        }
+
+        .student-details h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #4a4a4a;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 7px;
+        }
+
+        .student-details p {
+            margin: 3px 0;
+            font-size: 14px;
+        }
+
+        /* Task Boxes */
+        .box {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #bbb;
+        }
+
+        h2 {
+            color: #4a4a4a;
+            margin-top: 0;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        /* Input and Textarea */
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        /* Button */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Result */
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #eeeeee;
+            border-radius: 5px;
+            color: #333;
+            min-height: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+        }
+
+        /* For smaller screens */
+        @media (max-width: 1000px) {
+            .student-details {
+                position: static;
+                width: 700px;
+                max-width: 85%;
+                margin: 0 auto 20px auto;
+                box-sizing: border-box;
+            }
+
+            .container {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Student Details -->
+    <div class="student-details">
+
+        <h3>Student Details</h3>
+
+        <p><b>Name:</b> Parth Jirapure</p>
+        <p><b>Year:</b> 3</p>
+        <p><b>Sem:</b> 5</p>
+        <p><b>Sec:</b> D</p>
+        <p><b>PRN:</b> 24070521243</p>
+
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <h1>JavaScript String Operations</h1>
+
+
+        <!-- Task 1 -->
+        <div class="box">
+
+            <h2>1. Reverse a String</h2>
+
+            <label for="stringInput">
+                Enter a String:
+            </label>
+
+            <input
+                type="text"
+                id="stringInput"
+                placeholder="Enter a string"
+            >
+
+            <button onclick="reverseString()">
+                Reverse String
+            </button>
+
+            <div class="result">
+                <b>Result:</b>
+                <span id="reverseResult"></span>
+            </div>
+
+        </div>
+
+
+        <!-- Task 2 -->
+        <div class="box">
+
+            <h2>2. Count Number of Vowels</h2>
+
+            <label for="paragraphInput">
+                Enter a Paragraph:
+            </label>
+
+            <textarea
+                id="paragraphInput"
+                placeholder="Enter your paragraph"
+            ></textarea>
+
+            <button onclick="countVowels()">
+                Count Vowels
+            </button>
+
+            <div class="result">
+                <b>Result:</b>
+                <span id="vowelResult"></span>
+            </div>
+
+        </div>
+
+
+        <div class="footer">
+            JavaScript Lab Program
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Function to reverse a string
+        function reverseString() {
+
+            var str = document.getElementById("stringInput").value;
+
+            if (str == "") {
+
+                document.getElementById("reverseResult").innerHTML =
+                    "Please enter a string.";
+
+                return;
+            }
+
+            var reverse = "";
+
+            for (var i = str.length - 1; i >= 0; i--) {
+
+                reverse = reverse + str[i];
+
+            }
+
+            document.getElementById("reverseResult").innerHTML =
+                reverse;
+        }
+
+
+        // Function to count vowels
+        function countVowels() {
+
+            var paragraph =
+                document.getElementById("paragraphInput").value;
+
+            if (paragraph == "") {
+
+                document.getElementById("vowelResult").innerHTML =
+                    "Please enter a paragraph.";
+
+                return;
+            }
+
+            var count = 0;
+
+            var vowels = "aeiouAEIOU";
+
+            for (var i = 0; i < paragraph.length; i++) {
+
+                if (vowels.indexOf(paragraph[i]) != -1) {
+
+                    count++;
+
+                }
+            }
+
+            document.getElementById("vowelResult").innerHTML =
+                "Number of vowels = " + count;
+        }
+
+    </script>
+
+</body>
+</html>
