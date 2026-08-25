@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>To-Do List - Internal JavaScript</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        /* =========================
+           STUDENT DETAILS
+           TOP RIGHT - OUTSIDE TODO
+           ========================= */
+
+        .student-details {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+
+            width: 230px;
+
+            background-color: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 0 10px #aaa;
+        }
+
+        .student-details h2 {
+            margin-top: 0;
+            text-align: center;
+            color: #333;
+        }
+
+        .student-details p {
+            margin: 10px 0;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           TODO LIST
+           SEPARATE BOX
+           ========================= */
+
+        .todo-container {
+            width: 550px;
+
+            margin: 100px auto 0 auto;
+
+            background-color: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 0 10px #aaa;
+        }
+
+
+        .todo-container h1 {
+            text-align: center;
+            color: #333;
+        }
+
+
+        /* Input Area */
+
+        .input-area {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+
+        #taskInput {
+            flex: 1;
+
+            padding: 12px;
+
+            font-size: 16px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+        }
+
+
+        /* Buttons */
+
+        button {
+            padding: 10px 15px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+
+        /* Add Button */
+
+        #addBtn {
+            background-color: green;
+
+            color: white;
+        }
+
+
+        #addBtn:hover {
+            background-color: darkgreen;
+        }
+
+
+        /* Task List */
+
+        ul {
+            list-style: none;
+
+            padding: 0;
+
+            margin-top: 20px;
+        }
+
+
+        li {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 12px;
+
+            margin-bottom: 10px;
+
+            background-color: #eee;
+
+            border-radius: 5px;
+        }
+
+
+        .task-text {
+            flex: 1;
+
+            cursor: pointer;
+        }
+
+
+        /* Completed Task */
+
+        .completed {
+            text-decoration: line-through;
+
+            color: gray;
+        }
+
+
+        /* Complete Button */
+        .complete-btn {
+            background-color: #2e7d32;
+            color: white;
+            margin-right: 5px;
+            font-size: 18px;
+            padding: 7px 12px;
+        }
+
+        .complete-btn:hover {
+            background-color: #1b5e20;
+        }
+
+        /* Edit Button */
+
+        .edit-btn {
+            background-color: orange;
+
+            color: white;
+
+            margin-right: 5px;
+        }
+
+
+        .edit-btn:hover {
+            background-color: darkorange;
+        }
+
+
+        /* Delete Button */
+
+        .delete-btn {
+            background-color: red;
+
+            color: white;
+        }
+
+
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+
+
+        /* =========================
+           RESPONSIVE DESIGN
+           ========================= */
+
+        @media (max-width: 800px) {
+
+            .student-details {
+                position: static;
+
+                width: auto;
+
+                margin-bottom: 30px;
+            }
+
+
+            .todo-container {
+                width: auto;
+
+                margin: 20px auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================
+         STUDENT DETAILS
+         OUTSIDE TODO LIST
+         TOP RIGHT CORNER
+         ================================== -->
+
+    <div class="student-details">
+
+        <h2>Student Details</h2>
+
+        <p>
+            <b>Name :</b> Parth Jirapure
+        </p>
+
+        <p>
+            <b>PRN :</b> 24070521243
+        </p>
+
+        <p>
+            <b>Semester :</b> 5th
+        </p>
+
+        <p>
+            <b>Section :</b> D
+        </p>
+
+    </div>
+
+
+    <!-- ==================================
+         TODO LIST
+         SEPARATE CONTAINER
+         ================================== -->
+
+    <div class="todo-container">
+
+        <h1>To-Do List</h1>
+
+
+        <!-- Input Area -->
+
+        <div class="input-area">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Enter a task"
+            >
+
+            <button id="addBtn">
+                Add
+            </button>
+
+        </div>
+
+
+        <!-- Task List -->
+
+        <ul id="taskList">
+
+        </ul>
+
+    </div>
+
+
+    <!-- ==================================
+         INTERNAL JAVASCRIPT
+         ================================== -->
+
+    <script>
+
+
+        // ================================
+        // DOM TRAVERSAL
+        // ================================
+
+        const taskInput =
+            document.getElementById("taskInput");
+
+        const addBtn =
+            document.getElementById("addBtn");
+
+        const taskList =
+            document.getElementById("taskList");
+
+
+        // ================================
+        // ADD BUTTON EVENT
+        // ================================
+
+        addBtn.addEventListener(
+            "click",
+            addTask
+        );
+
+
+        // ================================
+        // ENTER KEY EVENT
+        // ================================
+
+        taskInput.addEventListener(
+            "keypress",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    addTask();
+
+                }
+
+            }
+        );
+
+
+        // ================================
+        // ADD TASK FUNCTION
+        // ================================
+
+        function addTask() {
+
+
+            // Get task from input
+
+            const task =
+                taskInput.value.trim();
+
+
+            // Check empty input
+
+            if (task === "") {
+
+                alert("Please enter a task.");
+
+                return;
+
+            }
+
+
+            // ================================
+            // CREATE LIST ITEM
+            // ================================
+
+            const li =
+                document.createElement("li");
+
+
+            // ================================
+            // CREATE TASK TEXT
+            // ================================
+
+            const span =
+                document.createElement("span");
+
+
+            span.className =
+                "task-text";
+
+
+            span.textContent =
+                task;
+
+
+            // ================================
+            // COMPLETE TASK
+            // ================================
+
+            span.addEventListener(
+                "click",
+                function() {
+
+                    span.classList.toggle(
+                        "completed"
+                    );
+
+                }
+            );
+
+
+            // ================================
+            // CREATE COMPLETE BUTTON
+            // ================================
+
+            const completeBtn =
+                document.createElement("button");
+
+            completeBtn.textContent = "✓";
+            completeBtn.className = "complete-btn";
+
+            completeBtn.addEventListener(
+                "click",
+                function() {
+                    span.classList.toggle("completed");
+                }
+            );
+
+
+            // ================================
+            // CREATE EDIT BUTTON
+            // ================================
+
+            const editBtn =
+                document.createElement("button");
+
+
+            editBtn.textContent =
+                "Edit";
+
+
+            editBtn.className =
+                "edit-btn";
+
+
+            editBtn.addEventListener(
+                "click",
+                function() {
+
+
+                    // DOM Traversal
+
+                    const taskText =
+                        li.querySelector(
+                            ".task-text"
+                        );
+
+
+                    // Ask user for new task
+
+                    const newTask =
+                        prompt(
+                            "Edit your task:",
+                            taskText.textContent
+                        );
+
+
+                    // DOM Update
+
+                    if (
+                        newTask !== null &&
+                        newTask.trim() !== ""
+                    ) {
+
+                        taskText.textContent =
+                            newTask.trim();
+
+                    }
+
+                }
+            );
+
+
+            // ================================
+            // CREATE DELETE BUTTON
+            // ================================
+
+            const deleteBtn =
+                document.createElement("button");
+
+
+            deleteBtn.textContent =
+                "Delete";
+
+
+            deleteBtn.className =
+                "delete-btn";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                function() {
+
+
+                    // DOM Update
+
+                    taskList.removeChild(li);
+
+                }
+            );
+
+
+            // ================================
+            // BUTTON CONTAINER
+            // ================================
+
+            const buttons =
+                document.createElement("div");
+
+
+            buttons.appendChild(completeBtn);
+            buttons.appendChild(editBtn);
+            buttons.appendChild(deleteBtn);
+
+
+            // ================================
+            // ADD ELEMENTS TO LI
+            // ================================
+
+            li.appendChild(span);
+
+            li.appendChild(buttons);
+
+
+            // ================================
+            // ADD LI TO TASK LIST
+            // ================================
+
+            taskList.appendChild(li);
+
+
+            // ================================
+            // CLEAR INPUT
+            // ================================
+
+            taskInput.value = "";
+
+            taskInput.focus();
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
