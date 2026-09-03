@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+
+    <!-- Internal CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 40px;
+        }
+
+        /* Student Details */
+        .student-details {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background-color: white;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+        }
+
+        .student-details p {
+            margin: 5px 0;
+        }
+
+        /* Main Form */
+        .container {
+            width: 600px;
+            margin: 100px auto 0;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Section headings */
+        h3 {
+            color: #333;
+            margin-top: 25px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 9px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 70px;
+            resize: vertical;
+        }
+
+        input.valid,
+        select.valid,
+        textarea.valid {
+            border: 2px solid green;
+        }
+
+        input.invalid,
+        select.invalid,
+        textarea.invalid {
+            border: 2px solid red;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #success {
+            color: green;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Student Details at Top Right -->
+    <div class="student-details">
+        <p><strong>Name:</strong> Parth Jirapure</p>
+        <p><strong>Year:</strong> 3</p>
+        <p><strong>Sem:</strong> 5</p>
+        <p><strong>Sec:</strong> D</p>
+        <p><strong>PRN:</strong> 24070521243</p>
+    </div>
+
+
+    <!-- Main Form -->
+    <div class="container">
+
+        <h2>Job Application Form</h2>
+
+        <form id="applicationForm">
+
+            <!-- Personal Information -->
+            <h3>Personal Information</h3>
+
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName"
+                   placeholder="Enter your full name">
+            <div id="nameError" class="error"></div>
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob">
+            <div id="dobError" class="error"></div>
+
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="">-- Select Gender --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <div id="genderError" class="error"></div>
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email"
+                   placeholder="Enter your email">
+            <div id="emailError" class="error"></div>
+
+            <label for="mobile">Mobile Number</label>
+            <input type="text" id="mobile"
+                   placeholder="Enter 10-digit mobile number">
+            <div id="mobileError" class="error"></div>
+
+            <label for="address">Address</label>
+            <textarea id="address"
+                      placeholder="Enter your address"></textarea>
+            <div id="addressError" class="error"></div>
+
+            <label for="city">City / State / PIN Code</label>
+            <input type="text" id="city"
+                   placeholder="Enter City / State / PIN Code">
+            <div id="cityError" class="error"></div>
+
+
+            <!-- Educational Qualification -->
+            <h3>Educational Qualification</h3>
+
+            <label for="qualification">Highest Qualification</label>
+            <input type="text" id="qualification"
+                   placeholder="Enter highest qualification">
+            <div id="qualificationError" class="error"></div>
+
+            <label for="university">University / Institute</label>
+            <input type="text" id="university"
+                   placeholder="Enter university or institute">
+            <div id="universityError" class="error"></div>
+
+            <label for="passingYear">Passing Year</label>
+            <input type="number" id="passingYear"
+                   placeholder="Enter passing year">
+            <div id="yearError" class="error"></div>
+
+            <label for="percentage">Percentage / CGPA</label>
+            <input type="text" id="percentage"
+                   placeholder="Enter percentage or CGPA">
+            <div id="percentageError" class="error"></div>
+
+
+            <!-- Professional Information -->
+            <h3>Professional Information</h3>
+
+            <label for="jobPosition">Applying For / Job Position</label>
+            <input type="text" id="jobPosition"
+                   placeholder="Enter job position">
+            <div id="jobError" class="error"></div>
+
+            <label for="experience">Total Work Experience</label>
+            <input type="text" id="experience"
+                   placeholder="Example: 2 Years">
+            <div id="experienceError" class="error"></div>
+
+            <label for="organization">Current/Previous Organization</label>
+            <input type="text" id="organization"
+                   placeholder="Enter organization name">
+            <div id="organizationError" class="error"></div>
+
+            <label for="designation">Current Designation</label>
+            <input type="text" id="designation"
+                   placeholder="Enter current designation">
+            <div id="designationError" class="error"></div>
+
+            <label for="salary">Expected Salary</label>
+            <input type="text" id="salary"
+                   placeholder="Enter expected salary">
+            <div id="salaryError" class="error"></div>
+
+
+            <!-- Technical Skills -->
+            <h3>Technical Skills</h3>
+
+            <label for="programming">Programming Languages</label>
+            <input type="text" id="programming"
+                   placeholder="Example: C, C++, Java, Python">
+            <div id="programmingError" class="error"></div>
+
+            <label for="skills">Technical Skills</label>
+            <textarea id="skills"
+                      placeholder="Enter your technical skills"></textarea>
+            <div id="skillsError" class="error"></div>
+
+            <label for="certifications">Certifications</label>
+            <textarea id="certifications"
+                      placeholder="Enter your certifications"></textarea>
+            <div id="certificationError" class="error"></div>
+
+
+            <button type="submit">Submit Application</button>
+
+            <div id="success"></div>
+
+        </form>
+    </div>
+
+
+    <!-- Internal JavaScript -->
+    <script>
+
+        // Access form fields
+        const form = document.getElementById("applicationForm");
+
+        const fullName = document.getElementById("fullName");
+        const dob = document.getElementById("dob");
+        const gender = document.getElementById("gender");
+        const email = document.getElementById("email");
+        const mobile = document.getElementById("mobile");
+        const address = document.getElementById("address");
+        const city = document.getElementById("city");
+
+        const qualification =
+            document.getElementById("qualification");
+
+        const university =
+            document.getElementById("university");
+
+        const passingYear =
+            document.getElementById("passingYear");
+
+        const percentage =
+            document.getElementById("percentage");
+
+        const jobPosition =
+            document.getElementById("jobPosition");
+
+        const experience =
+            document.getElementById("experience");
+
+        const organization =
+            document.getElementById("organization");
+
+        const designation =
+            document.getElementById("designation");
+
+        const salary =
+            document.getElementById("salary");
+
+        const programming =
+            document.getElementById("programming");
+
+        const skills =
+            document.getElementById("skills");
+
+        const certifications =
+            document.getElementById("certifications");
+
+
+        // Function for text validation
+        function validateText(field, errorId, message) {
+
+            const error = document.getElementById(errorId);
+
+            if (field.value.trim().length < 2) {
+
+                error.textContent = message;
+
+                field.classList.add("invalid");
+                field.classList.remove("valid");
+
+                return false;
+
+            } else {
+
+                error.textContent = "";
+
+                field.classList.add("valid");
+                field.classList.remove("invalid");
+
+                return true;
+            }
+        }
+
+
+        // Full Name - input event
+        fullName.addEventListener("input", function () {
+
+            validateText(
+                fullName,
+                "nameError",
+                "Please enter your full name."
+            );
+
+        });
+
+
+        // Email - input event
+        email.addEventListener("input", function () {
+
+            const error =
+                document.getElementById("emailError");
+
+            const emailPattern =
+                /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            if (!emailPattern.test(email.value.trim())) {
+
+                error.textContent =
+                    "Please enter a valid email address.";
+
+                email.classList.add("invalid");
+                email.classList.remove("valid");
+
+            } else {
+
+                error.textContent = "";
+
+                email.classList.add("valid");
+                email.classList.remove("invalid");
+            }
+
+        });
+
+
+        // Mobile - input event
+        mobile.addEventListener("input", function () {
+
+            const error =
+                document.getElementById("mobileError");
+
+            const mobilePattern = /^[0-9]{10}$/;
+
+            if (!mobilePattern.test(mobile.value)) {
+
+                error.textContent =
+                    "Mobile number must contain 10 digits.";
+
+                mobile.classList.add("invalid");
+                mobile.classList.remove("valid");
+
+            } else {
+
+                error.textContent = "";
+
+                mobile.classList.add("valid");
+                mobile.classList.remove("invalid");
+            }
+
+        });
+
+
+        // Date of Birth - change event
+        dob.addEventListener("change", function () {
+
+            const error =
+                document.getElementById("dobError");
+
+            if (dob.value === "") {
+
+                error.textContent =
+                    "Please select your date of birth.";
+
+                dob.classList.add("invalid");
+
+            } else {
+
+                error.textContent = "";
+
+                dob.classList.add("valid");
+                dob.classList.remove("invalid");
+            }
+
+        });
+
+
+        // Gender - change event
+        gender.addEventListener("change", function () {
+
+            const error =
+                document.getElementById("genderError");
+
+            if (gender.value === "") {
+
+                error.textContent =
+                    "Please select your gender.";
+
+                gender.classList.add("invalid");
+
+            } else {
+
+                error.textContent = "";
+
+                gender.classList.add("valid");
+                gender.classList.remove("invalid");
+            }
+
+        });
+
+
+        // Address - input event
+        address.addEventListener("input", function () {
+
+            validateText(
+                address,
+                "addressError",
+                "Please enter your address."
+            );
+
+        });
+
+
+        // City / State / PIN - input event
+        city.addEventListener("input", function () {
+
+            validateText(
+                city,
+                "cityError",
+                "Please enter City / State / PIN Code."
+            );
+
+        });
+
+
+        // Educational fields
+        qualification.addEventListener("input", function () {
+
+            validateText(
+                qualification,
+                "qualificationError",
+                "Please enter your qualification."
+            );
+
+        });
+
+
+        university.addEventListener("input", function () {
+
+            validateText(
+                university,
+                "universityError",
+                "Please enter university/institute."
+            );
+
+        });
+
+
+        passingYear.addEventListener("input", function () {
+
+            const error =
+                document.getElementById("yearError");
+
+            const year = Number(passingYear.value);
+
+            if (year < 1950 || year > 2100) {
+
+                error.textContent =
+                    "Enter a valid passing year.";
+
+                passingYear.classList.add("invalid");
+                passingYear.classList.remove("valid");
+
+            } else {
+
+                error.textContent = "";
+
+                passingYear.classList.add("valid");
+                passingYear.classList.remove("invalid");
+            }
+
+        });
+
+
+        percentage.addEventListener("input", function () {
+
+            validateText(
+                percentage,
+                "percentageError",
+                "Please enter Percentage / CGPA."
+            );
+
+        });
+
+
+        // Professional Information
+        jobPosition.addEventListener("input", function () {
+
+            validateText(
+                jobPosition,
+                "jobError",
+                "Please enter the job position."
+            );
+
+        });
+
+
+        experience.addEventListener("input", function () {
+
+            validateText(
+                experience,
+                "experienceError",
+                "Please enter work experience."
+            );
+
+        });
+
+
+        organization.addEventListener("input", function () {
+
+            validateText(
+                organization,
+                "organizationError",
+                "Please enter organization name."
+            );
+
+        });
+
+
+        designation.addEventListener("input", function () {
+
+            validateText(
+                designation,
+                "designationError",
+                "Please enter designation."
+            );
+
+        });
+
+
+        salary.addEventListener("input", function () {
+
+            validateText(
+                salary,
+                "salaryError",
+                "Please enter expected salary."
+            );
+
+        });
+
+
+        // Technical Skills
+        programming.addEventListener("input", function () {
+
+            validateText(
+                programming,
+                "programmingError",
+                "Please enter programming languages."
+            );
+
+        });
+
+
+        skills.addEventListener("input", function () {
+
+            validateText(
+                skills,
+                "skillsError",
+                "Please enter technical skills."
+            );
+
+        });
+
+
+        certifications.addEventListener("input", function () {
+
+            validateText(
+                certifications,
+                "certificationError",
+                "Please enter certifications."
+            );
+
+        });
+
+
+        // Submit event
+        form.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            let valid = true;
+
+            // Check required fields
+            const fields = [
+                fullName,
+                dob,
+                gender,
+                email,
+                mobile,
+                address,
+                city,
+                qualification,
+                university,
+                passingYear,
+                percentage,
+                jobPosition,
+                experience,
+                organization,
+                designation,
+                salary,
+                programming,
+                skills,
+                certifications
+            ];
+
+            fields.forEach(function (field) {
+
+                if (field.value.trim() === "") {
+                    valid = false;
+                    field.classList.add("invalid");
+                }
+
+            });
+
+
+            if (valid) {
+
+                document.getElementById("success").textContent =
+                    "Application submitted successfully!";
+
+            } else {
+
+                document.getElementById("success").textContent =
+                    "Please fill in all required fields correctly.";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
