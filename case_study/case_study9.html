@@ -1,437 +1,668 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Task Management</title>
-  <style>
-    :root{
-      --bg:#f4f7fb;
-      --card:#ffffff;
-      --text:#172033;
-      --muted:#64748b;
-      --primary:#4f46e5;
-      --primary2:#7c3aed;
-      --border:#dbe3ef;
-      --input:#ffffff;
-      --success:#15803d;
-      --danger:#dc2626;
-      --shadow:0 12px 35px rgba(15,23,42,.10);
-    }
-    body.dark{
-      --bg:#0f172a;
-      --card:#182235;
-      --text:#e5e7eb;
-      --muted:#9aa8bd;
-      --primary:#818cf8;
-      --primary2:#a78bfa;
-      --border:#334155;
-      --input:#111827;
-      --success:#4ade80;
-      --danger:#f87171;
-      --shadow:0 12px 35px rgba(0,0,0,.30);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(135deg,var(--bg),var(--bg));
-      color:var(--text);
-      min-height:100vh;
-      transition:.25s;
-    }
-    header{
-      padding:26px 5% 18px;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:20px;
-    }
-    .title h1{margin:0 0 7px;font-size:30px}
-    .title p{margin:0;color:var(--muted)}
-    .student-info{
-      text-align:right;
-      line-height:1.65;
-      font-size:14px;
-      color:var(--muted);
-      white-space:nowrap;
-    }
-    .student-info strong{color:var(--text)}
-    .theme-btn{
-      border:1px solid var(--border);
-      background:var(--card);
-      color:var(--text);
-      border-radius:22px;
-      padding:10px 16px;
-      cursor:pointer;
-      font-weight:700;
-      box-shadow:var(--shadow);
-    }
-    main{width:min(1100px,90%);margin:0 auto 45px}
-    .grid{
-      display:grid;
-      grid-template-columns:340px 1fr;
-      gap:22px;
-    }
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      box-shadow:var(--shadow);
-      padding:22px;
-    }
-    .card h2{font-size:19px;margin:0 0 18px}
-    label{display:block;font-size:13px;font-weight:700;margin:14px 0 7px}
-    input,select,textarea{
-      width:100%;
-      padding:11px 12px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      background:var(--input);
-      color:var(--text);
-      outline:none;
-    }
-    textarea{resize:vertical;min-height:80px}
-    input:focus,select:focus,textarea:focus{border-color:var(--primary)}
-    .btn{
-      border:0;
-      border-radius:10px;
-      padding:11px 15px;
-      cursor:pointer;
-      font-weight:700;
-      transition:.15s;
-    }
-    .btn:hover,.theme-btn:hover{transform:translateY(-1px)}
-    .primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:white}
-    .secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
-    .danger{background:transparent;color:var(--danger);border:1px solid var(--border)}
-    .actions{display:flex;gap:9px;margin-top:18px}
-    .actions .btn{flex:1}
-    .toolbar{
-      display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px
-    }
-    .toolbar input{flex:1;min-width:190px}
-    .toolbar select{width:145px}
-    .stats{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px
-    }
-    .stat{
-      padding:13px;border:1px solid var(--border);border-radius:12px;
-      background:rgba(99,102,241,.05)
-    }
-    .stat b{display:block;font-size:22px}.stat span{font-size:12px;color:var(--muted)}
-    .task-list{display:grid;gap:12px}
-    .task{
-      border:1px solid var(--border);
-      border-left:5px solid var(--primary);
-      border-radius:13px;
-      padding:15px;
-      background:var(--input);
-    }
-    .task.done{opacity:.72;border-left-color:var(--success)}
-    .task.done .task-title{text-decoration:line-through}
-    .task-head{display:flex;justify-content:space-between;gap:12px}
-    .task-title{font-size:16px;font-weight:800;margin:0 0 6px}
-    .task-desc{color:var(--muted);font-size:13px;white-space:pre-wrap}
-    .meta{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
-    .tag{
-      font-size:11px;padding:5px 8px;border-radius:20px;
-      background:rgba(99,102,241,.12);color:var(--primary);font-weight:700
-    }
-    .priority-high{background:rgba(220,38,38,.12);color:var(--danger)}
-    .priority-medium{background:rgba(234,179,8,.14);color:#a16207}
-    .priority-low{background:rgba(21,128,61,.12);color:var(--success)}
-    .task-buttons{display:flex;gap:7px;margin-top:12px}
-    .task-buttons button{padding:7px 10px;font-size:12px}
-    .empty{text-align:center;color:var(--muted);padding:35px 10px}
-    .message{font-size:13px;min-height:18px;margin-top:9px}
-    .success{color:var(--success)} .error{color:var(--danger)}
-    footer{text-align:center;color:var(--muted);font-size:12px;padding:8px 0 28px}
-    @media(max-width:800px){
-      header{flex-direction:column}
-      .student-info{text-align:left;white-space:normal}
-      .grid{grid-template-columns:1fr}
-    }
-  </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>To-Do List - Internal JavaScript</title>
+
+    <style>
+
+        /* =========================
+           LIGHT THEME
+        ========================== */
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: black;
+            margin: 0;
+            padding: 30px;
+            transition: 0.3s;
+        }
+
+
+        /* =========================
+           THEME BUTTON
+        ========================== */
+
+        #themeButton {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+
+            width: auto;
+            padding: 10px 18px;
+
+            border: none;
+            border-radius: 20px;
+
+            background-color: #333;
+            color: white;
+
+            cursor: pointer;
+            font-size: 14px;
+
+            z-index: 1000;
+        }
+
+        #themeButton:hover {
+            background-color: #555;
+        }
+
+
+        /* =========================
+           STUDENT DETAILS
+        ========================== */
+
+        .student-details {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+
+            width: 230px;
+
+            background-color: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 0 10px #aaa;
+
+            transition: 0.3s;
+        }
+
+
+        .student-details h2 {
+            margin-top: 0;
+            text-align: center;
+            color: #333;
+        }
+
+
+        .student-details p {
+            margin: 10px 0;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           TODO LIST
+        ========================== */
+
+        .todo-container {
+            width: 550px;
+
+            margin: 100px auto 0 auto;
+
+            background-color: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 0 10px #aaa;
+
+            transition: 0.3s;
+        }
+
+
+        .todo-container h1 {
+            text-align: center;
+            color: #333;
+        }
+
+
+        /* =========================
+           INPUT AREA
+        ========================== */
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+
+        #taskInput {
+            flex: 1;
+
+            padding: 12px;
+
+            font-size: 16px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+
+            box-sizing: border-box;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================== */
+
+        button {
+            padding: 10px 15px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+
+        /* Add Button */
+
+        #addBtn {
+            background-color: green;
+            color: white;
+        }
+
+
+        #addBtn:hover {
+            background-color: darkgreen;
+        }
+
+
+        /* =========================
+           TASK LIST
+        ========================== */
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+
+        li {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 12px;
+
+            margin-bottom: 10px;
+
+            background-color: #eee;
+
+            border-radius: 5px;
+        }
+
+
+        .task-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+
+        /* Completed Task */
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+
+        /* Complete Button */
+
+        .complete-btn {
+            background-color: #2e7d32;
+            color: white;
+
+            margin-right: 5px;
+
+            font-size: 18px;
+
+            padding: 7px 12px;
+        }
+
+
+        .complete-btn:hover {
+            background-color: #1b5e20;
+        }
+
+
+        /* Edit Button */
+
+        .edit-btn {
+            background-color: orange;
+            color: white;
+
+            margin-right: 5px;
+        }
+
+
+        .edit-btn:hover {
+            background-color: darkorange;
+        }
+
+
+        /* Delete Button */
+
+        .delete-btn {
+            background-color: red;
+            color: white;
+        }
+
+
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+
+
+        /* =========================
+           DARK MODE
+        ========================== */
+
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+
+        body.dark-mode .student-details {
+            background-color: #1e1e1e;
+            color: white;
+
+            box-shadow: 0 0 10px #555;
+        }
+
+
+        body.dark-mode .student-details h2 {
+            color: white;
+        }
+
+
+        body.dark-mode .todo-container {
+            background-color: #1e1e1e;
+            color: white;
+
+            box-shadow: 0 0 10px #555;
+        }
+
+
+        body.dark-mode .todo-container h1 {
+            color: white;
+        }
+
+
+        body.dark-mode #taskInput {
+            background-color: #333;
+            color: white;
+
+            border-color: #666;
+        }
+
+
+        body.dark-mode #taskInput::placeholder {
+            color: #ccc;
+        }
+
+
+        body.dark-mode li {
+            background-color: #333;
+            color: white;
+        }
+
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================== */
+
+        @media (max-width: 800px) {
+
+            #themeButton {
+                position: static;
+
+                display: block;
+
+                margin-bottom: 20px;
+            }
+
+
+            .student-details {
+                position: static;
+
+                width: auto;
+
+                margin-bottom: 30px;
+            }
+
+
+            .todo-container {
+                width: auto;
+
+                margin: 20px auto;
+            }
+
+        }
+
+    </style>
+
 </head>
+
+
 <body>
-  <header>
-    <div class="title">
-      <h1>Student Task Management</h1>
-      <p>Create, manage, validate and update your tasks using JavaScript DOM operations.</p>
+
+
+    <!-- =========================
+         LIGHT / DARK MODE BUTTON
+    ========================== -->
+
+    <button id="themeButton" onclick="toggleTheme()">
+        🌙 Dark Mode
+    </button>
+
+
+    <!-- =========================
+         STUDENT DETAILS
+    ========================== -->
+
+    <div class="student-details">
+
+        <h2>Student Details</h2>
+
+        <p>
+            <b>Name :</b> Parth Jirapure
+        </p>
+
+        <p>
+            <b>PRN :</b> 24070521243
+        </p>
+
+        <p>
+            <b>Semester :</b> 5th
+        </p>
+
+        <p>
+            <b>Section :</b> D
+        </p>
+
     </div>
- 
-    <!-- Student details are intentionally outside the task form, at the top-right. -->
-    <div class="student-info">
-      <div><strong>Name:</strong> Parth Jirapure</div>
-      <div><strong>Year:</strong> 3</div>
-      <div><strong>Sem:</strong> 5</div>
-      <div><strong>PRN:</strong> 24070521243</div>
-      <button class="theme-btn" id="themeToggle" type="button">🌙 Dark Mode</button>
-    </div>
-  </header>
- 
-  <main>
-    <div class="grid">
-      <section class="card">
-        <h2 id="formHeading">Add New Task</h2>
-        <form id="taskForm" novalidate>
-          <label for="taskTitle">Task Title *</label>
-          <input id="taskTitle" type="text" maxlength="80" placeholder="e.g. Complete JavaScript practical">
- 
-          <label for="taskDescription">Description</label>
-          <textarea id="taskDescription" maxlength="300" placeholder="Enter task details..."></textarea>
- 
-          <label for="taskDate">Due Date *</label>
-          <input id="taskDate" type="date">
- 
-          <label for="taskPriority">Priority</label>
-          <select id="taskPriority">
-            <option value="High">High</option>
-            <option value="Medium" selected>Medium</option>
-            <option value="Low">Low</option>
-          </select>
- 
-          <label for="taskCategory">Category</label>
-          <select id="taskCategory">
-            <option>College</option>
-            <option>Personal</option>
-            <option>Project</option>
-            <option>Exam</option>
-          </select>
- 
-          <div class="actions">
-            <button class="btn primary" id="submitBtn" type="submit">Add Task</button>
-            <button class="btn secondary" id="resetBtn" type="button">Clear</button>
-          </div>
-          <div id="formMessage" class="message" aria-live="polite"></div>
-        </form>
-      </section>
- 
-      <section class="card">
-        <h2>My Tasks</h2>
-        <div class="stats">
-          <div class="stat"><b id="totalCount">0</b><span>Total Tasks</span></div>
-          <div class="stat"><b id="pendingCount">0</b><span>Pending</span></div>
-          <div class="stat"><b id="completedCount">0</b><span>Completed</span></div>
+
+
+    <!-- =========================
+         TODO LIST
+    ========================== -->
+
+    <div class="todo-container">
+
+        <h1>To-Do List</h1>
+
+        <div class="input-area">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Enter a task"
+            >
+
+            <button id="addBtn">
+                Add
+            </button>
+
         </div>
- 
-        <div class="toolbar">
-          <input id="searchBox" type="search" placeholder="Search tasks...">
-          <select id="filterStatus">
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="completed">Completed</option>
-          </select>
-          <select id="sortTasks">
-            <option value="date">Sort by Date</option>
-            <option value="priority">Sort by Priority</option>
-            <option value="title">Sort by Title</option>
-          </select>
-        </div>
- 
-        <div id="taskList" class="task-list"></div>
-      </section>
+
+        <ul id="taskList"></ul>
+
     </div>
-  </main>
- 
-  <footer>Student Task Management • HTML + CSS + JavaScript • Data stored in localStorage</footer>
- 
-  <script>
-    const STORAGE_KEY = "parth_student_tasks";
-    const THEME_KEY = "student_task_theme";
- 
-    let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    let editingId = null;
- 
-    const form = document.getElementById("taskForm");
-    const title = document.getElementById("taskTitle");
-    const description = document.getElementById("taskDescription");
-    const dueDate = document.getElementById("taskDate");
-    const priority = document.getElementById("taskPriority");
-    const category = document.getElementById("taskCategory");
-    const taskList = document.getElementById("taskList");
-    const formMessage = document.getElementById("formMessage");
-    const themeToggle = document.getElementById("themeToggle");
- 
-    function saveTasks(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-    }
- 
-    function escapeHTML(value){
-      const div = document.createElement("div");
-      div.textContent = value;
-      return div.innerHTML;
-    }
- 
-    function showMessage(text, type){
-      formMessage.textContent = text;
-      formMessage.className = "message " + type;
-    }
- 
-    function validateTask(){
-      if(!title.value.trim()){
-        showMessage("Task title is required.", "error");
-        title.focus();
-        return false;
-      }
-      if(!dueDate.value){
-        showMessage("Please select a due date.", "error");
-        dueDate.focus();
-        return false;
-      }
-      return true;
-    }
- 
-    function resetForm(){
-      form.reset();
-      priority.value = "Medium";
-      category.value = "College";
-      editingId = null;
-      document.getElementById("formHeading").textContent = "Add New Task";
-      document.getElementById("submitBtn").textContent = "Add Task";
-      formMessage.textContent = "";
-      formMessage.className = "message";
-    }
- 
-    function addOrUpdateTask(event){
-      event.preventDefault();
-      if(!validateTask()) return;
- 
-      const data = {
-        title: title.value.trim(),
-        description: description.value.trim(),
-        dueDate: dueDate.value,
-        priority: priority.value,
-        category: category.value
-      };
- 
-      if(editingId){
-        const task = tasks.find(t => t.id === editingId);
-        Object.assign(task, data);
-        showMessage("Task updated successfully.", "success");
-      } else {
-        tasks.push({
-          id: Date.now().toString(),
-          ...data,
-          completed: false,
-          createdAt: new Date().toISOString()
-        });
-        showMessage("Task added successfully.", "success");
-      }
- 
-      saveTasks();
-      renderTasks();
-      if(!editingId) form.reset();
-      editingId = null;
-      document.getElementById("formHeading").textContent = "Add New Task";
-      document.getElementById("submitBtn").textContent = "Add Task";
-      priority.value = "Medium";
-      category.value = "College";
-    }
- 
-    function editTask(id){
-      const task = tasks.find(t => t.id === id);
-      if(!task) return;
-      editingId = id;
-      title.value = task.title;
-      description.value = task.description;
-      dueDate.value = task.dueDate;
-      priority.value = task.priority;
-      category.value = task.category;
-      document.getElementById("formHeading").textContent = "Edit Task";
-      document.getElementById("submitBtn").textContent = "Update Task";
-      showMessage("Editing selected task.", "success");
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
- 
-    function toggleTask(id){
-      const task = tasks.find(t => t.id === id);
-      if(task) task.completed = !task.completed;
-      saveTasks();
-      renderTasks();
-    }
- 
-    function deleteTask(id){
-      if(!confirm("Delete this task?")) return;
-      tasks = tasks.filter(t => t.id !== id);
-      saveTasks();
-      renderTasks();
-    }
- 
-    function renderTasks(){
-      const search = document.getElementById("searchBox").value.toLowerCase().trim();
-      const status = document.getElementById("filterStatus").value;
-      const sort = document.getElementById("sortTasks").value;
- 
-      let visible = tasks.filter(task => {
-        const matchesSearch = (task.title + " " + task.description + " " + task.category)
-          .toLowerCase().includes(search);
-        const matchesStatus =
-          status === "all" ||
-          (status === "completed" && task.completed) ||
-          (status === "pending" && !task.completed);
-        return matchesSearch && matchesStatus;
-      });
- 
-      const rank = {High:1, Medium:2, Low:3};
-      visible.sort((a,b) => {
-        if(sort === "priority") return rank[a.priority] - rank[b.priority];
-        if(sort === "title") return a.title.localeCompare(b.title);
-        return a.dueDate.localeCompare(b.dueDate);
-      });
- 
-      document.getElementById("totalCount").textContent = tasks.length;
-      document.getElementById("pendingCount").textContent = tasks.filter(t=>!t.completed).length;
-      document.getElementById("completedCount").textContent = tasks.filter(t=>t.completed).length;
- 
-      if(!visible.length){
-        taskList.innerHTML = '<div class="empty">No tasks found. Humanity survives another empty list.</div>';
-        return;
-      }
- 
-      taskList.innerHTML = visible.map(task => `
-        <article class="task ${task.completed ? "done" : ""}">
-          <div class="task-head">
-            <div>
-              <p class="task-title">${escapeHTML(task.title)}</p>
-              <div class="task-desc">${escapeHTML(task.description || "No description provided.")}</div>
-            </div>
-            <input type="checkbox" ${task.completed ? "checked" : ""}
-              title="Mark task complete" onchange="toggleTask('${task.id}')">
-          </div>
-          <div class="meta">
-            <span class="tag">${escapeHTML(task.category)}</span>
-            <span class="tag priority-${task.priority.toLowerCase()}">${escapeHTML(task.priority)}</span>
-            <span class="tag">Due: ${escapeHTML(task.dueDate)}</span>
-          </div>
-          <div class="task-buttons">
-            <button class="btn secondary" onclick="editTask('${task.id}')">Edit</button>
-            <button class="btn danger" onclick="deleteTask('${task.id}')">Delete</button>
-          </div>
-        </article>
-      `).join("");
-    }
- 
-    function applyTheme(theme){
-      document.body.classList.toggle("dark", theme === "dark");
-      themeToggle.textContent = theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
-      localStorage.setItem(THEME_KEY, theme);
-    }
- 
-    themeToggle.addEventListener("click", () => {
-      applyTheme(document.body.classList.contains("dark") ? "light" : "dark");
-    });
- 
-    form.addEventListener("submit", addOrUpdateTask);
-    document.getElementById("resetBtn").addEventListener("click", resetForm);
-    document.getElementById("searchBox").addEventListener("input", renderTasks);
-    document.getElementById("filterStatus").addEventListener("change", renderTasks);
-    document.getElementById("sortTasks").addEventListener("change", renderTasks);
- 
-    // Restore saved theme and tasks after the page is reopened.
-    applyTheme(localStorage.getItem(THEME_KEY) || "light");
-    renderTasks();
-  </script>
+
+
+    <script>
+
+        /* =========================
+           LIGHT / DARK THEME
+        ========================== */
+
+        function toggleTheme() {
+
+            document.body.classList.toggle("dark-mode");
+
+            let button =
+                document.getElementById("themeButton");
+
+
+            if (
+                document.body.classList.contains("dark-mode")
+            ) {
+
+                button.innerHTML = "☀️ Light Mode";
+
+            } else {
+
+                button.innerHTML = "🌙 Dark Mode";
+
+            }
+
+        }
+
+
+        /* =========================
+           DOM TRAVERSAL
+        ========================== */
+
+        const taskInput =
+            document.getElementById("taskInput");
+
+        const addBtn =
+            document.getElementById("addBtn");
+
+        const taskList =
+            document.getElementById("taskList");
+
+
+        /* =========================
+           ADD BUTTON EVENT
+        ========================== */
+
+        addBtn.addEventListener(
+            "click",
+            addTask
+        );
+
+
+        /* =========================
+           ENTER KEY EVENT
+        ========================== */
+
+        taskInput.addEventListener(
+            "keypress",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    addTask();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           ADD TASK FUNCTION
+        ========================== */
+
+        function addTask() {
+
+            const task =
+                taskInput.value.trim();
+
+
+            if (task === "") {
+
+                alert("Please enter a task.");
+
+                return;
+
+            }
+
+
+            /* CREATE LIST ITEM */
+
+            const li =
+                document.createElement("li");
+
+
+            /* CREATE TASK TEXT */
+
+            const span =
+                document.createElement("span");
+
+            span.className = "task-text";
+
+            span.textContent = task;
+
+
+            /* COMPLETE TASK */
+
+            span.addEventListener(
+                "click",
+                function() {
+
+                    span.classList.toggle(
+                        "completed"
+                    );
+
+                }
+            );
+
+
+            /* COMPLETE BUTTON */
+
+            const completeBtn =
+                document.createElement("button");
+
+            completeBtn.textContent = "✓";
+
+            completeBtn.className =
+                "complete-btn";
+
+
+            completeBtn.addEventListener(
+                "click",
+                function() {
+
+                    span.classList.toggle(
+                        "completed"
+                    );
+
+                }
+            );
+
+
+            /* EDIT BUTTON */
+
+            const editBtn =
+                document.createElement("button");
+
+            editBtn.textContent = "Edit";
+
+            editBtn.className =
+                "edit-btn";
+
+
+            editBtn.addEventListener(
+                "click",
+                function() {
+
+                    const taskText =
+                        li.querySelector(
+                            ".task-text"
+                        );
+
+
+                    const newTask =
+                        prompt(
+                            "Edit your task:",
+                            taskText.textContent
+                        );
+
+
+                    if (
+                        newTask !== null &&
+                        newTask.trim() !== ""
+                    ) {
+
+                        taskText.textContent =
+                            newTask.trim();
+
+                    }
+
+                }
+            );
+
+
+            /* DELETE BUTTON */
+
+            const deleteBtn =
+                document.createElement("button");
+
+            deleteBtn.textContent = "Delete";
+
+            deleteBtn.className =
+                "delete-btn";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                function() {
+
+                    taskList.removeChild(li);
+
+                }
+            );
+
+
+            /* BUTTON CONTAINER */
+
+            const buttons =
+                document.createElement("div");
+
+
+            buttons.appendChild(completeBtn);
+
+            buttons.appendChild(editBtn);
+
+            buttons.appendChild(deleteBtn);
+
+
+            /* ADD ELEMENTS */
+
+            li.appendChild(span);
+
+            li.appendChild(buttons);
+
+
+            /* ADD LI TO LIST */
+
+            taskList.appendChild(li);
+
+
+            /* CLEAR INPUT */
+
+            taskInput.value = "";
+
+            taskInput.focus();
+
+        }
+
+    </script>
+
+
 </body>
+
 </html>
+```
