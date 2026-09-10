@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Admission Form</title>
+
+    <!-- Internal CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 40px;
+        }
+
+        /* Student details at top-right */
+        .student-details {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background-color: white;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+        }
+
+        .student-details p {
+            margin: 5px 0;
+        }
+
+        /* Form container */
+        .container {
+            width: 400px;
+            margin: 100px auto 0;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+        input.valid,
+        select.valid {
+            border: 2px solid green;
+        }
+
+        input.invalid,
+        select.invalid {
+            border: 2px solid red;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #success {
+            color: green;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Student Details -->
+    <div class="student-details">
+        <p><strong>Name:</strong> Parth Jirapure</p>
+        <p><strong>Year:</strong> 3</p>
+        <p><strong>Sem:</strong> 5</p>
+        <p><strong>Sec:</strong> D</p>
+        <p><strong>PRN:</strong> 24070521243</p>
+    </div>
+
+    <!-- Gym Admission Form -->
+    <div class="container">
+        <h2>Gym Admission Form</h2>
+
+        <form id="gymForm">
+
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName"
+                   placeholder="Enter your full name">
+            <div id="nameError" class="error"></div>
+
+            <label for="email">Email</label>
+            <input type="email" id="email"
+                   placeholder="Enter your email">
+            <div id="emailError" class="error"></div>
+
+            <label for="mobile">Mobile Number</label>
+            <input type="text" id="mobile"
+                   placeholder="Enter 10-digit mobile number">
+            <div id="mobileError" class="error"></div>
+
+            <label for="age">Age</label>
+            <input type="number" id="age"
+                   placeholder="Enter your age">
+            <div id="ageError" class="error"></div>
+
+            <label for="plan">Membership Plan</label>
+            <select id="plan">
+                <option value="">-- Select Plan --</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Yearly">Yearly</option>
+            </select>
+            <div id="planError" class="error"></div>
+
+            <button type="submit">Submit Admission</button>
+
+            <div id="success"></div>
+
+        </form>
+    </div>
+
+
+    <!-- Internal JavaScript -->
+    <script>
+
+        // Access form fields
+        const form = document.getElementById("gymForm");
+        const fullName = document.getElementById("fullName");
+        const email = document.getElementById("email");
+        const mobile = document.getElementById("mobile");
+        const age = document.getElementById("age");
+        const plan = document.getElementById("plan");
+
+
+        // Full Name validation using input event
+        fullName.addEventListener("input", function () {
+
+            const error = document.getElementById("nameError");
+
+            if (fullName.value.trim().length < 3) {
+
+                error.textContent =
+                    "Name must contain at least 3 characters.";
+
+                fullName.classList.add("invalid");
+                fullName.classList.remove("valid");
+
+            } else {
+
+                error.textContent = "";
+
+                fullName.classList.add("valid");
+                fullName.classList.remove("invalid");
+            }
+        });
+
+
+        // Email validation using input event
+        email.addEventListener("input", function () {
+
+            const error = document.getElementById("emailError");
+
+            const emailPattern =
+                /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            if (!emailPattern.test(email.value.trim())) {
+
+                error.textContent =
+                    "Enter a valid email address.";
+
+                email.classList.add("invalid");
+                email.classList.remove("valid");
+
+            } else {
+
+                error.textContent = "";
+
+                email.classList.add("valid");
+                email.classList.remove("invalid");
+            }
+        });
+
+
+        // Mobile number validation using input event
+        mobile.addEventListener("input", function () {
+
+            const error = document.getElementById("mobileError");
+
+            const mobilePattern = /^[0-9]{10}$/;
+
+            if (!mobilePattern.test(mobile.value)) {
+
+                error.textContent =
+                    "Mobile number must contain exactly 10 digits.";
+
+                mobile.classList.add("invalid");
+                mobile.classList.remove("valid");
+
+            } else {
+
+                error.textContent = "";
+
+                mobile.classList.add("valid");
+                mobile.classList.remove("invalid");
+            }
+        });
+
+
+        // Age validation using input event
+        age.addEventListener("input", function () {
+
+            const error = document.getElementById("ageError");
+
+            const ageValue = Number(age.value);
+
+            if (age.value === "" ||
+                ageValue < 16 ||
+                ageValue > 80) {
+
+                error.textContent =
+                    "Age must be between 16 and 80.";
+
+                age.classList.add("invalid");
+                age.classList.remove("valid");
+
+            } else {
+
+                error.textContent = "";
+
+                age.classList.add("valid");
+                age.classList.remove("invalid");
+            }
+        });
+
+
+        // Membership plan validation using change event
+        plan.addEventListener("change", function () {
+
+            const error = document.getElementById("planError");
+
+            if (plan.value === "") {
+
+                error.textContent =
+                    "Please select a membership plan.";
+
+                plan.classList.add("invalid");
+                plan.classList.remove("valid");
+
+            } else {
+
+                error.textContent = "";
+
+                plan.classList.add("valid");
+                plan.classList.remove("invalid");
+            }
+        });
+
+
+        // Form validation using submit event
+        form.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            let valid = true;
+
+            const emailPattern =
+                /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            const mobilePattern =
+                /^[0-9]{10}$/;
+
+            const ageValue = Number(age.value);
+
+
+            if (fullName.value.trim().length < 3) {
+                valid = false;
+            }
+
+            if (!emailPattern.test(email.value.trim())) {
+                valid = false;
+            }
+
+            if (!mobilePattern.test(mobile.value)) {
+                valid = false;
+            }
+
+            if (age.value === "" ||
+                ageValue < 16 ||
+                ageValue > 80) {
+                valid = false;
+            }
+
+            if (plan.value === "") {
+                valid = false;
+            }
+
+
+            if (valid) {
+
+                document.getElementById("success").textContent =
+                    "Gym admission submitted successfully!";
+
+            } else {
+
+                document.getElementById("success").textContent =
+                    "Please correct the errors before submitting.";
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
