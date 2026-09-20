@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Event Registration System</title>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            text-align: center;
+            color: #234b7a;
+            margin-bottom: 25px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button,
+        input,
+        select {
+            padding: 12px;
+            font-size: 15px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+        }
+
+        button {
+            background-color: #234b7a;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #16365a;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        select {
+            min-width: 200px;
+        }
+
+        #message {
+            display: none;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background-color: #234b7a;
+            color: white;
+            padding: 14px;
+            text-align: center;
+        }
+
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #eaf2ff;
+        }
+
+        .registered {
+            color: green;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .cancelled {
+            color: red;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            button,
+            input,
+            select {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Campus Event Registration System</h1>
+
+        <div class="controls">
+
+            <!-- Fetch Button -->
+            <button id="fetchBtn">
+                Load Student Data (Fetch)
+            </button>
+
+            <!-- jQuery Button -->
+            <button id="jqueryBtn">
+                Load Student Data (jQuery)
+            </button>
+
+            <!-- Search Box -->
+            <input
+                type="text"
+                id="searchBox"
+                placeholder="Search by Student Name or PRN"
+            >
+
+            <!-- Registration Status Filter -->
+            <select id="statusFilter">
+
+                <option value="All">
+                    All Registration Status
+                </option>
+
+                <option value="Registered">
+                    Registered
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Cancelled">
+                    Cancelled
+                </option>
+
+            </select>
+
+        </div>
+
+        <!-- Message Area -->
+        <div id="message"></div>
+
+        <!-- Student Table -->
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Sr. No.</th>
+                        <th>Student Name</th>
+                        <th>PRN</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Event Name</th>
+                        <th>Registration Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="studentTableBody">
+
+                    <tr>
+
+                        <td colspan="7" class="empty">
+
+                            Click Load Student Data to display students.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         INTERNAL JSON DATA
+         ========================================= -->
+
+    <script id="studentData" type="application/json">
+
+    [
+        {
+            "studentName": "Parth Jirapure",
+            "prn": "1234567890",
+            "department": "Computer Engineering",
+            "year": "3rd Year",
+            "eventName": "Tech Fest",
+            "registrationStatus": "Registered"
+        },
+
+        {
+            "studentName": "Aarav Patil",
+            "prn": "1234567891",
+            "department": "Information Technology",
+            "year": "2nd Year",
+            "eventName": "Hackathon",
+            "registrationStatus": "Pending"
+        },
+
+        {
+            "studentName": "Sneha Sharma",
+            "prn": "1234567892",
+            "department": "Computer Engineering",
+            "year": "3rd Year",
+            "eventName": "Cultural Fest",
+            "registrationStatus": "Registered"
+        },
+
+        {
+            "studentName": "Rohan Deshmukh",
+            "prn": "1234567893",
+            "department": "Mechanical Engineering",
+            "year": "4th Year",
+            "eventName": "Sports Meet",
+            "registrationStatus": "Cancelled"
+        },
+
+        {
+            "studentName": "Priya Kulkarni",
+            "prn": "1234567894",
+            "department": "Electronics",
+            "year": "1st Year",
+            "eventName": "Tech Fest",
+            "registrationStatus": "Pending"
+        },
+
+        {
+            "studentName": "Neha Joshi",
+            "prn": "1234567895",
+            "department": "Civil Engineering",
+            "year": "2nd Year",
+            "eventName": "Tech Fest",
+            "registrationStatus": "Registered"
+        }
+
+    ]
+
+    </script>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+         ========================================= -->
+
+    <script>
+
+        // Global student array
+        let students = [];
+
+        // Create a temporary JSON URL
+        function getJSONURL() {
+
+            let jsonText =
+                document.getElementById("studentData").textContent;
+
+            let blob = new Blob(
+                [jsonText],
+                { type: "application/json" }
+            );
+
+            return URL.createObjectURL(blob);
+
+        }
+
+
+        // =========================================
+        // DISPLAY MESSAGE
+        // =========================================
+
+        function showMessage(message, type) {
+
+            let messageBox =
+                document.getElementById("message");
+
+            messageBox.textContent = message;
+
+            messageBox.className = type;
+
+            messageBox.style.display = "block";
+
+        }
+
+
+        // =========================================
+        // DISPLAY STUDENTS IN TABLE
+        // =========================================
+
+        function displayStudents(data) {
+
+            let tableBody =
+                document.getElementById("studentTableBody");
+
+            tableBody.innerHTML = "";
+
+            // No matching students
+            if (data.length === 0) {
+
+                tableBody.innerHTML = `
+
+                    <tr>
+
+                        <td colspan="7" class="empty">
+
+                            No student matches the
+                            search/filter criteria.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            // Create table rows dynamically
+            data.forEach(function(student, index) {
+
+                let row =
+                    document.createElement("tr");
+
+                let statusClass =
+                    student.registrationStatus.toLowerCase();
+
+                row.innerHTML = `
+
+                    <td>${index + 1}</td>
+
+                    <td>${student.studentName}</td>
+
+                    <td>${student.prn}</td>
+
+                    <td>${student.department}</td>
+
+                    <td>${student.year}</td>
+
+                    <td>${student.eventName}</td>
+
+                    <td class="${statusClass}">
+
+                        ${student.registrationStatus}
+
+                    </td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+
+        // =========================================
+        // SEARCH AND FILTER FUNCTION
+        // =========================================
+
+        function filterStudents() {
+
+            let searchText =
+                document.getElementById("searchBox")
+                .value
+                .toLowerCase()
+                .trim();
+
+            let selectedStatus =
+                document.getElementById("statusFilter")
+                .value;
+
+
+            let filteredStudents =
+                students.filter(function(student) {
+
+                    let matchesSearch =
+
+                        student.studentName
+                        .toLowerCase()
+                        .includes(searchText)
+
+                        ||
+
+                        String(student.prn)
+                        .toLowerCase()
+                        .includes(searchText);
+
+
+                    let matchesStatus =
+
+                        selectedStatus === "All"
+
+                        ||
+
+                        student.registrationStatus
+                        === selectedStatus;
+
+
+                    return matchesSearch && matchesStatus;
+
+                });
+
+
+            displayStudents(filteredStudents);
+
+        }
+
+
+        // =========================================
+        // METHOD 1: JAVASCRIPT FETCH()
+        // =========================================
+
+        function loadUsingFetch() {
+
+            let jsonURL = getJSONURL();
+
+            fetch(jsonURL)
+
+                .then(function(response) {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "JSON data cannot be loaded."
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(function(data) {
+
+                    students = data;
+
+                    displayStudents(students);
+
+                    showMessage(
+                        "Student data loaded successfully using fetch().",
+                        "success"
+                    );
+
+                    URL.revokeObjectURL(jsonURL);
+
+                })
+
+                .catch(function(error) {
+
+                    showMessage(
+                        "Error: JSON data cannot be loaded.",
+                        "error"
+                    );
+
+                    console.error(error);
+
+                    URL.revokeObjectURL(jsonURL);
+
+                });
+
+        }
+
+
+        // =========================================
+        // METHOD 2: jQuery $.getJSON()
+        // =========================================
+
+        function loadUsingJQuery() {
+
+            let jsonURL = getJSONURL();
+
+            $.getJSON(jsonURL)
+
+                .done(function(data) {
+
+                    students = data;
+
+                    displayStudents(students);
+
+                    showMessage(
+                        "Student data loaded successfully using jQuery $.getJSON().",
+                        "success"
+                    );
+
+                    URL.revokeObjectURL(jsonURL);
+
+                })
+
+                .fail(function(error) {
+
+                    showMessage(
+                        "Error: JSON data cannot be loaded using jQuery.",
+                        "error"
+                    );
+
+                    console.error(error);
+
+                    URL.revokeObjectURL(jsonURL);
+
+                });
+
+        }
+
+
+        // =========================================
+        // EVENT LISTENERS
+        // =========================================
+
+        document.getElementById("fetchBtn")
+            .addEventListener("click", loadUsingFetch);
+
+
+        document.getElementById("jqueryBtn")
+            .addEventListener("click", loadUsingJQuery);
+
+
+        document.getElementById("searchBox")
+            .addEventListener("input", filterStudents);
+
+
+        document.getElementById("statusFilter")
+            .addEventListener("change", filterStudents);
+
+    </script>
+
+</body>
+
+</html>
