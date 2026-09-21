@@ -3,346 +3,429 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Admission Form</title>
 
-    <!-- Internal CSS -->
+    <title>Theme Settings</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 40px;
+        * {
+            box-sizing: border-box;
         }
 
-        /* Student details at top-right */
-        .student-details {
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background-color: #f2f2f2;
+            color: #222;
+
+            transition: 0.3s;
+        }
+
+        /* Student Details Box */
+        .student-info {
             position: absolute;
             top: 20px;
-            right: 30px;
+            right: 20px;
+
+            padding: 15px 20px;
+
             background-color: white;
-            padding: 10px 15px;
-            border: 1px solid #ccc;
+            color: #222;
+
+            border: 1px solid #222;
             border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+            text-align: left;
             font-size: 14px;
         }
 
-        .student-details p {
-            margin: 5px 0;
+        .student-info p {
+            margin: 6px 0;
         }
 
-        /* Form container */
+        /* Main Theme Settings Box */
         .container {
-            width: 400px;
-            margin: 100px auto 0;
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
+            width: 600px;
+            padding: 40px;
 
-        h2 {
             text-align: center;
-            color: #333;
+
+            background-color: white;
+            border: 1px solid #222;
+            border-radius: 3px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+            transition: 0.3s;
         }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 30px;
         }
 
-        input,
+        .description {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
         select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            box-sizing: border-box;
+            padding: 8px 12px;
+            font-size: 15px;
+            cursor: pointer;
+
             border: 1px solid #aaa;
-            border-radius: 5px;
+            border-radius: 4px;
+            background-color: white;
         }
 
-        input.valid,
-        select.valid {
-            border: 2px solid green;
-        }
+        /* Buttons */
+        .buttons {
+            margin-top: 25px;
 
-        input.invalid,
-        select.invalid {
-            border: 2px solid red;
-        }
+            display: flex;
+            justify-content: center;
+            gap: 15px;
 
-        .error {
-            color: red;
-            font-size: 13px;
-            margin-top: 4px;
+            flex-wrap: wrap;
         }
 
         button {
-            width: 100%;
-            margin-top: 20px;
-            padding: 12px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            padding: 10px 15px;
+
+            border: 1px solid #aaa;
+            border-radius: 4px;
+
+            background-color: #e9e9e9;
+            color: #222;
+
             cursor: pointer;
+            font-size: 14px;
         }
 
         button:hover {
-            background-color: #555;
+            background-color: #d5d5d5;
         }
 
-        #success {
-            color: green;
-            text-align: center;
+        .clear-button {
+            margin-top: 20px;
+        }
+
+        #message {
+            min-height: 22px;
+            margin-top: 25px;
+
+            font-size: 15px;
             font-weight: bold;
-            margin-top: 15px;
+        }
+
+        /* =========================
+           DARK THEME
+           ========================= */
+
+        body.dark {
+            background-color: #191919;
+            color: white;
+        }
+
+        body.dark .container {
+            background-color: #292929;
+            border-color: #555;
+        }
+
+        body.dark .student-info {
+            background-color: #292929;
+            color: white;
+            border-color: #555;
+        }
+
+        body.dark select,
+        body.dark button {
+            background-color: #eeeeee;
+            color: #111;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Student Details -->
-    <div class="student-details">
-        <p><strong>Name:</strong> Parth Jirapure</p>
-        <p><strong>Year:</strong> 3</p>
-        <p><strong>Sem:</strong> 5</p>
-        <p><strong>Sec:</strong> D</p>
-        <p><strong>PRN:</strong> 24070521243</p>
+    <!-- =========================
+         STUDENT DETAILS
+         Outside the main form
+         ========================= -->
+
+    <div class="student-info">
+
+        <p>
+            <strong>Name:</strong>
+            Parth Jirapure
+        </p>
+
+        <p>
+            <strong>Year:</strong>
+            3
+        </p>
+
+        <p>
+            <strong>Sem:</strong>
+            5
+        </p>
+
+        <p>
+            <strong>PRN:</strong>
+            24070521243
+        </p>
+
     </div>
 
-    <!-- Gym Admission Form -->
+
+    <!-- =========================
+         THEME SETTINGS
+         ========================= -->
+
     <div class="container">
-        <h2>Gym Admission Form</h2>
 
-        <form id="gymForm">
+        <h1>Theme Settings</h1>
 
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName"
-                   placeholder="Enter your full name">
-            <div id="nameError" class="error"></div>
+        <p class="description">
+            Select your preferred theme:
+        </p>
 
-            <label for="email">Email</label>
-            <input type="email" id="email"
-                   placeholder="Enter your email">
-            <div id="emailError" class="error"></div>
 
-            <label for="mobile">Mobile Number</label>
-            <input type="text" id="mobile"
-                   placeholder="Enter 10-digit mobile number">
-            <div id="mobileError" class="error"></div>
+        <!-- Theme Selection -->
 
-            <label for="age">Age</label>
-            <input type="number" id="age"
-                   placeholder="Enter your age">
-            <div id="ageError" class="error"></div>
+        <select id="themeSelect">
 
-            <label for="plan">Membership Plan</label>
-            <select id="plan">
-                <option value="">-- Select Plan --</option>
-                <option value="Monthly">Monthly</option>
-                <option value="Quarterly">Quarterly</option>
-                <option value="Yearly">Yearly</option>
-            </select>
-            <div id="planError" class="error"></div>
+            <option value="light">
+                Light
+            </option>
 
-            <button type="submit">Submit Admission</button>
+            <option value="dark">
+                Dark
+            </option>
 
-            <div id="success"></div>
+        </select>
 
-        </form>
+
+        <!-- Storage Buttons -->
+
+        <div class="buttons">
+
+            <button onclick="saveLocalStorage()">
+                Save using localStorage
+            </button>
+
+            <button onclick="saveSessionStorage()">
+                Save using sessionStorage
+            </button>
+
+        </div>
+
+
+        <!-- Clear Preferences -->
+
+        <button
+            class="clear-button"
+            onclick="clearPreferences()">
+
+            Clear Preferences
+
+        </button>
+
+
+        <!-- Status Message -->
+
+        <p id="message"></p>
+
     </div>
 
 
-    <!-- Internal JavaScript -->
+    <!-- =========================
+         JAVASCRIPT
+         ========================= -->
+
     <script>
 
-        // Access form fields
-        const form = document.getElementById("gymForm");
-        const fullName = document.getElementById("fullName");
-        const email = document.getElementById("email");
-        const mobile = document.getElementById("mobile");
-        const age = document.getElementById("age");
-        const plan = document.getElementById("plan");
+        // Get HTML elements
+        const themeSelect =
+            document.getElementById("themeSelect");
+
+        const message =
+            document.getElementById("message");
 
 
-        // Full Name validation using input event
-        fullName.addEventListener("input", function () {
+        // --------------------------------
+        // Apply selected theme
+        // --------------------------------
 
-            const error = document.getElementById("nameError");
+        function applyTheme(theme) {
 
-            if (fullName.value.trim().length < 3) {
+            if (theme === "dark") {
 
-                error.textContent =
-                    "Name must contain at least 3 characters.";
-
-                fullName.classList.add("invalid");
-                fullName.classList.remove("valid");
+                document.body.classList.add("dark");
 
             } else {
 
-                error.textContent = "";
+                document.body.classList.remove("dark");
 
-                fullName.classList.add("valid");
-                fullName.classList.remove("invalid");
-            }
-        });
-
-
-        // Email validation using input event
-        email.addEventListener("input", function () {
-
-            const error = document.getElementById("emailError");
-
-            const emailPattern =
-                /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-
-            if (!emailPattern.test(email.value.trim())) {
-
-                error.textContent =
-                    "Enter a valid email address.";
-
-                email.classList.add("invalid");
-                email.classList.remove("valid");
-
-            } else {
-
-                error.textContent = "";
-
-                email.classList.add("valid");
-                email.classList.remove("invalid");
-            }
-        });
-
-
-        // Mobile number validation using input event
-        mobile.addEventListener("input", function () {
-
-            const error = document.getElementById("mobileError");
-
-            const mobilePattern = /^[0-9]{10}$/;
-
-            if (!mobilePattern.test(mobile.value)) {
-
-                error.textContent =
-                    "Mobile number must contain exactly 10 digits.";
-
-                mobile.classList.add("invalid");
-                mobile.classList.remove("valid");
-
-            } else {
-
-                error.textContent = "";
-
-                mobile.classList.add("valid");
-                mobile.classList.remove("invalid");
-            }
-        });
-
-
-        // Age validation using input event
-        age.addEventListener("input", function () {
-
-            const error = document.getElementById("ageError");
-
-            const ageValue = Number(age.value);
-
-            if (age.value === "" ||
-                ageValue < 16 ||
-                ageValue > 80) {
-
-                error.textContent =
-                    "Age must be between 16 and 80.";
-
-                age.classList.add("invalid");
-                age.classList.remove("valid");
-
-            } else {
-
-                error.textContent = "";
-
-                age.classList.add("valid");
-                age.classList.remove("invalid");
-            }
-        });
-
-
-        // Membership plan validation using change event
-        plan.addEventListener("change", function () {
-
-            const error = document.getElementById("planError");
-
-            if (plan.value === "") {
-
-                error.textContent =
-                    "Please select a membership plan.";
-
-                plan.classList.add("invalid");
-                plan.classList.remove("valid");
-
-            } else {
-
-                error.textContent = "";
-
-                plan.classList.add("valid");
-                plan.classList.remove("invalid");
-            }
-        });
-
-
-        // Form validation using submit event
-        form.addEventListener("submit", function (event) {
-
-            event.preventDefault();
-
-            let valid = true;
-
-            const emailPattern =
-                /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-
-            const mobilePattern =
-                /^[0-9]{10}$/;
-
-            const ageValue = Number(age.value);
-
-
-            if (fullName.value.trim().length < 3) {
-                valid = false;
             }
 
-            if (!emailPattern.test(email.value.trim())) {
-                valid = false;
+            themeSelect.value = theme;
+        }
+
+
+        // --------------------------------
+        // Save using localStorage
+        // --------------------------------
+
+        function saveLocalStorage() {
+
+            const theme =
+                themeSelect.value;
+
+            // Store theme permanently
+            localStorage.setItem(
+                "theme",
+                theme
+            );
+
+            // Remove session storage
+            sessionStorage.removeItem("theme");
+
+            // Apply theme
+            applyTheme(theme);
+
+            // Display message
+            message.textContent =
+                "Theme saved using localStorage.";
+        }
+
+
+        // --------------------------------
+        // Save using sessionStorage
+        // --------------------------------
+
+        function saveSessionStorage() {
+
+            const theme =
+                themeSelect.value;
+
+            // Store theme for current session
+            sessionStorage.setItem(
+                "theme",
+                theme
+            );
+
+            // Remove local storage
+            localStorage.removeItem("theme");
+
+            // Apply theme
+            applyTheme(theme);
+
+            // Display message
+            message.textContent =
+                "Theme saved using sessionStorage.";
+        }
+
+
+        // --------------------------------
+        // Clear Preferences
+        // --------------------------------
+
+        function clearPreferences() {
+
+            // Remove localStorage
+            localStorage.removeItem("theme");
+
+            // Remove sessionStorage
+            sessionStorage.removeItem("theme");
+
+            // Reset to light theme
+            applyTheme("light");
+
+            // Display message
+            message.textContent =
+                "Preferences cleared.";
+        }
+
+
+        // --------------------------------
+        // Load saved theme
+        // --------------------------------
+
+        function loadTheme() {
+
+            // Check localStorage
+            const localTheme =
+                localStorage.getItem("theme");
+
+            // Check sessionStorage
+            const sessionTheme =
+                sessionStorage.getItem("theme");
+
+
+            if (localTheme) {
+
+                // Load localStorage theme
+                applyTheme(localTheme);
+
+                message.textContent =
+                    "Theme loaded from localStorage.";
+
             }
 
-            if (!mobilePattern.test(mobile.value)) {
-                valid = false;
+            else if (sessionTheme) {
+
+                // Load sessionStorage theme
+                applyTheme(sessionTheme);
+
+                message.textContent =
+                    "Theme loaded from sessionStorage.";
+
             }
 
-            if (age.value === "" ||
-                ageValue < 16 ||
-                ageValue > 80) {
-                valid = false;
+            else {
+
+                // Default theme
+                applyTheme("light");
+
             }
+        }
 
-            if (plan.value === "") {
-                valid = false;
+
+        // --------------------------------
+        // Change theme immediately
+        // --------------------------------
+
+        themeSelect.addEventListener(
+            "change",
+            function () {
+
+                const theme =
+                    themeSelect.value;
+
+                applyTheme(theme);
+
+                message.textContent =
+                    "Theme changed. Select a storage option to save it.";
+
             }
+        );
 
 
-            if (valid) {
+        // --------------------------------
+        // Load theme when page starts
+        // --------------------------------
 
-                document.getElementById("success").textContent =
-                    "Gym admission submitted successfully!";
-
-            } else {
-
-                document.getElementById("success").textContent =
-                    "Please correct the errors before submitting.";
-            }
-
-        });
+        loadTheme();
 
     </script>
 
